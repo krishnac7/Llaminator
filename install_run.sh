@@ -6,7 +6,8 @@ sudo apt upgrade -y
 # Install Ollama and its models
 echo -e "\n====== Installing Ollama ======\n"
 curl -fsSL https://ollama.com/install.sh | sh
-ollama serve
+echo "waiting for ollama to start..."
+sleep 20
 echo -e "\n====== Fetching llama2 7B ======\n"
 ollama pull llama2
 
