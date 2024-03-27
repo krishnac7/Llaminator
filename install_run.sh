@@ -7,7 +7,7 @@ sudo apt upgrade -y
 echo -e "\n====== Installing Ollama ======\n"
 curl -fsSL https://ollama.com/install.sh | sh
 echo "waiting for ollama to start..."
-sleep 20
+sleep 10
 echo -e "\n====== Fetching llama2 7B ======\n"
 ollama pull llama2
 
