@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Query Llama</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .loader {
+            display: none;
+        }
+    </style>
+</head>
+<body onload="document.getElementById('query').focus();"> <!-- Auto-focus on page load -->
+    <div class="container">
+        <h2 class="mt-5">Ask Llama</h2>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter your query" id="query" onkeyup="handleEnterKey(event)"> <!-- Handle Enter key -->
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="askButton" onclick="getLlamaResponse()">Ask</button>
+            </div>
+        </div>
+        <div id="loader" class="loader">Loading...</div>
+        <div id="response" class="alert alert-info" role="alert" style="display:none;"></div>
+    </div>
+    
+    <script>
+    function getLlamaResponse() {
+        document.getElementById('response').style.display = 'none'; 
+        var loader = document.getElementById('loader');
+        var askButton = document.getElementById('askButton');
+        loader.style.display = 'block'; 
+        askButton.disabled = true; 
+
+        var query = document.getElementById('query').value;
+        fetch('/api/resource', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: query })
+        })
+        .then(response => response.json())
+        .then(data => {
+            loader.style.display = 'none'; 
+            askButton.disabled = false; 
+            var responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = data.response; 
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loader.style.display = 'none'; 
+            askButton.disabled = false; 
+        });
+    }
+
+    
+    function handleEnterKey(event) {
+        
+        if (event.keyCode === 13) {
+            getLlamaResponse(); 
+        }
+    }
+    </script>
+</body>
+</html>
