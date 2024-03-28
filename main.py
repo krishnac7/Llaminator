@@ -9,7 +9,7 @@ port = int(os.getenv('PORT', 8080))
 def home():
     return render_template("home.html")
 
-@app.route('/api/resource', methods=['POST'])
+@app.route('/api/response', methods=['POST'])
 def get_resource():
     data = request.get_json()
     query = data.get('query') if data else None
