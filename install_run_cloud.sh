@@ -23,15 +23,13 @@ pip install flask ollama
 echo -e "\n====== configuring firewall ======> \n"
 sudo ufw allow 80/tcp
 sudo ufw allow ssh
-sudo ufw enable
+yes | sudo ufw enable
 sudo ufw reload
 
 #setup ports
-echo -e "\n====== Setting up variables ======> \n"
+echo -e "\n====== Setting up variables ====== \n"
 echo 'export PORT=80' >> ~/.bashrc
 source ~/.bashrc
-
-
 
 screen -S llaminator -m -d  python3 main.py
 echo -e "\n====== now running ======> \n"
