@@ -20,7 +20,7 @@ echo -e "\n====== Installing Flask and Ollama Python packages ======\n"
 pip install flask ollama
 
 #configure network
-echo -e "\n====== configuring firewall ======> \n"
+echo -e "\n====== configuring firewall ====== \n"
 sudo ufw allow 80/tcp
 sudo ufw allow ssh
 yes | sudo ufw enable
@@ -33,4 +33,4 @@ export PORT=80
 screen -S llaminator -m -d  python3 main.py
 echo -e "\n====== now running ======> \n"
 echo -e " _     _                 _             _             \n| |   | |               (_)           | |            \n| |   | | __ _ _ __ ___  _ _ __   __ _| |_ ___  _ __ \n| |   | |/ _\` | '_ \` _ \\| | '_ \\ / _\` | __/ _ \\| '__|\n| |___| | (_| | | | | | | | | | | (_| | || (_) | |   \n\\_____/_|\\__,_|_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|   \n                                                     \n                                                     "
-echo -e "\nYou can access the ui on http://<PublicIP> \n"
+echo -e "\nYou can access the ui on http://<FloatingIP> \n"
