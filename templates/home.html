@@ -1,78 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Llaminator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        .loader {
-            display: none;
-        }
-        footer {
-            margin-top: 70vh;
-            text-align: center;
-            font-size: 0.9em;
-        }
-        container{
-            height:100vh;
-            width:100vw;
-        }
-    </style>
-</head>
-<body onload="document.getElementById('query').focus();"> <!-- Auto-focus on page load -->
-    <div class="container">
-        <h2 class="mt-5">Ask Llama</h2>
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Enter your query" id="query" onkeyup="handleEnterKey(event)"> <!-- Handle Enter key -->
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="askButton" onclick="getLlamaResponse()">Ask</button>
-            </div>
-        </div>
-        <div id="loader" class="loader">Loading...</div>
-        <div id="response" class="alert alert-info" role="alert" style="display:none;"></div>
-        <footer>
-            <p>Achievement Unlocked: Run an LLM inference on CPU &#x1F60E; </p>
-            <p><a href="mailto:krbalaga@in.ibm.com">Found bugs?</a></p>
-        </footer>
-    </div>
-    
-    <script>
-    function getLlamaResponse() {
-        document.getElementById('response').style.display = 'none'; 
-        var loader = document.getElementById('loader');
-        var askButton = document.getElementById('askButton');
-        loader.style.display = 'block'; 
-        askButton.disabled = true; 
+<!DOCTYPE html><html><head><title>Llaminator</title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"><style>.loader{display:none}footer{margin-top:70vh;text-align:center;font-size:.9em}container{height:100vh;width:100vw}</style></head><body onload="document.getElementById(&#34;query&#34;).focus()"><!-- Auto-focus on page load --><div class="container"><h2 class="mt-5">Ask Llama</h2><div class="input-group mb-3"><input type="text" class="form-control" placeholder="Enter your query" id="query" onkeyup="handleEnterKey(event)"><!-- Handle Enter key --><div class="input-group-append"><button class="btn btn-outline-secondary" type="button" id="askButton" onclick="getLlamaResponse()">Ask</button></div></div><div id="loader" class="loader">Loading...</div><div id="response" class="alert alert-info" role="alert" style="display:none"></div><footer><p>Achievement Unlocked: Run an LLM inference on CPU &#x1F60E;</p><p><a href="mailto:krbalaga@in.ibm.com">Found bugs?</a></p></footer></div><script>function getLlamaResponse() {
+    document.getElementById('response').style.display = 'none'; 
+    var loader = document.getElementById('loader');
+    var askButton = document.getElementById('askButton');
+    loader.style.display = 'block'; 
+    askButton.disabled = true; 
 
-        var query = document.getElementById('query').value;
-        fetch('/api/response', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: query })
-        })
-        .then(response => response.json())
-        .then(data => {
-            loader.style.display = 'none'; 
-            askButton.disabled = false; 
-            var responseDiv = document.getElementById('response');
-            responseDiv.style.display = 'block';
-            responseDiv.textContent = data.response; 
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loader.style.display = 'none'; 
-            askButton.disabled = false; 
-        });
-    }
+    var query = document.getElementById('query').value;
+    fetch('/api/response', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: query })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loader.style.display = 'none'; 
+        askButton.disabled = false; 
+        var responseDiv = document.getElementById('response');
+        responseDiv.style.display = 'block';
+        responseDiv.textContent = data.response; 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        loader.style.display = 'none'; 
+        askButton.disabled = false; 
+    });
+}
 
+
+function handleEnterKey(event) {
     
-    function handleEnterKey(event) {
-        
-        if (event.keyCode === 13) {
-            getLlamaResponse(); 
-        }
+    if (event.keyCode === 13) {
+        getLlamaResponse(); 
     }
-    </script>
-</body>
-</html>
+}</script></body></html>
