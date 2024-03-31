@@ -32,12 +32,14 @@ export PORT=80
 
 #setup startup scripts
 echo -e "\n====== Setting up startup scripts ====== \n"
-echo -e '#!/bin/bash\nexport PORT=80\nscreen -S llaminator -m -d  python3 /root/Llaminator/main.py' | sudo tee /etc/init.d/myScreenStartup.sh > /dev/null
+echo -e "[Unit]\nDescription=Start My Screen Session\nAfter=network.target\n\n[Service]\nType=forking\nEnvironment=\"PORT=80\"\nExecStart=/usr/bin/screen -dmS llaminator python3 /root/Llaminator/main.py\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/myScreenStartup.service > /dev/null
 sudo chmod +x /etc/init.d/myScreenStartup.sh
-sudo update-rc.d myScreenStartup.sh defaults
+sudo systemctl daemon-reload
+sudo systemctl enable myScreenStartup.service
+sudo systemctl start myScreenStartup.service
+sudo systemctl status myScreenStartup.service
 
 
-screen -S llaminator -m -d  python3 main.py
 echo -e "\n====== now running ======> \n"
 echo -e " _     _                 _             _             \n| |   | |               (_)           | |            \n| |   | | __ _ _ __ ___  _ _ __   __ _| |_ ___  _ __ \n| |   | |/ _\` | '_ \` _ \\| | '_ \\ / _\` | __/ _ \\| '__|\n| |___| | (_| | | | | | | | | | | (_| | || (_) | |   \n\\_____/_|\\__,_|_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|   \n                                                     \n                                                     "
 echo -e "\nYou can access the ui on http://<FloatingIP> \n"
