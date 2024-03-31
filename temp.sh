@@ -33,11 +33,23 @@ export PORT=80
 #setup startup scripts
 echo -e "\n====== Setting up startup scripts ====== \n"
 #remove old service
-sudo systemctl stop myScreenStartup.service 2>/dev/null
-sudo systemctl disable myScreenStartup.service 2>/dev/null
-sudo rm /etc/systemd/system/myScreenStartup.service 2>/dev/null
-sudo systemctl daemon-reload 2>/dev/null
-sudo systemctl reset-failed 2>/dev/null
+if systemctl --quiet is-active myScreenStartup.service; then
+    sudo systemctl stop myScreenStartup.service >/dev/null 2>&1
+    sudo systemctl disable myScreenStartup.service >/dev/null 2>&1
+    echo "Service stopped and disabled."
+else
+    echo "Service does not exist or is not running."
+fi
+if [ -f /etc/systemd/system/myScreenStartup.service ]; then
+    sudo rm /etc/systemd/system/myScreenStartup.service >/dev/null 2>&1
+    sudo systemctl daemon-reload >/dev/null 2>&1
+    sudo systemctl reset-failed >/dev/null 2>&1
+    echo "Service file removed and systemd reloaded."
+else
+    echo "Service file does not exist."
+fi
+
+
 #create new
 echo -e "[Unit]\nDescription=Start My Screen Session\nAfter=network.target\n\n[Service]\nType=forking\nEnvironment=\"PORT=80\"\nExecStart=/usr/bin/screen -dmS llaminator python3 /root/Llaminator/main.py\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/myScreenStartup.service > /dev/null
 sudo chmod +x /etc/init.d/myScreenStartup.sh
