@@ -32,6 +32,13 @@ export PORT=80
 
 #setup startup scripts
 echo -e "\n====== Setting up startup scripts ====== \n"
+#remove old service
+sudo systemctl stop myScreenStartup.service
+sudo systemctl disable myScreenStartup.service
+sudo rm /etc/systemd/system/myScreenStartup.service
+sudo systemctl daemon-reload
+sudo systemctl reset-failed
+#create new
 echo -e "[Unit]\nDescription=Start My Screen Session\nAfter=network.target\n\n[Service]\nType=forking\nEnvironment=\"PORT=80\"\nExecStart=/usr/bin/screen -dmS llaminator python3 /root/Llaminator/main.py\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/myScreenStartup.service > /dev/null
 sudo chmod +x /etc/init.d/myScreenStartup.sh
 sudo systemctl daemon-reload
