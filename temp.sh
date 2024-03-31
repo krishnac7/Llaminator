@@ -37,8 +37,7 @@ sudo chmod +x /etc/init.d/myScreenStartup.sh
 sudo systemctl daemon-reload
 sudo systemctl enable myScreenStartup.service
 sudo systemctl start myScreenStartup.service
-sudo systemctl status myScreenStartup.service
-
+timeout 5 sudo systemctl status myScreenStartup.service
 
 echo -e "\n====== now running ======> \n"
 echo -e " _     _                 _             _             \n| |   | |               (_)           | |            \n| |   | | __ _ _ __ ___  _ _ __   __ _| |_ ___  _ __ \n| |   | |/ _\` | '_ \` _ \\| | '_ \\ / _\` | __/ _ \\| '__|\n| |___| | (_| | | | | | | | | | | (_| | || (_) | |   \n\\_____/_|\\__,_|_| |_| |_|_|_| |_|\\__,_|\\__\\___/|_|   \n                                                     \n                                                     "
